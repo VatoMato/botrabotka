@@ -1,0 +1,10 @@
+# requirements.txt
+aiogram
+asyncpg
+redis
+celery
+sqlalchemy[asyncio]
+opentelemetry-sdk
+opentelemetry-instrumentation-aiogram
+yookassa
+minio
