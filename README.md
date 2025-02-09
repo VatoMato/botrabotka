@@ -1,33 +1,50 @@
-# botrabotka
-├── bot/
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── bot.py          # Инициализация бота и диспетчера
-│   │   └── middleware/     # Кастомные middleware
-│   ├── handlers/
-│   │   ├── __init__.py
-│   │   ├── commands.py     # Обработчики /start и основных команд
-│   │   ├── payments.py     # Логика работы с ЮKassa
-│   │   └── orders.py       # Логика заказов и услуг
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── user.py         # Модель пользователя
-│   │   └── order.py        # Модель заказа со статусами
-│   ├── services/
-│   │   ├── database.py     # Асинхронный доступ к PostgreSQL
-│   │   ├── storage.py      # Работа с S3-совместимым хранилищем
-│   │   └── sharding.py     # Логика шардирования
-│   ├── tasks/
-│   │   ├── __init__.py
-│   │   └── order_tasks.py  # Celery задачи для заказов
-│   ├── utils/
-│   │   ├── logging.py      # Настройка логов с интеграцией Loki
-│   │   └── tracing.py      # Инструментация для Jaeger
-│   └── config.py           # Конфигурация приложения
-├── infrastructure/
-│   ├── k8s/                # Kubernetes манифесты
-│   ├── istio/              # Service Mesh конфигурация
-│   └── chaos/              # Chaos Engineering тесты
-├── deploy/
-│   └── helm-charts/        # Helm чарты для деплоя
-└── .env                    # Переменные окружения
+highload-bot/
+├── .env
+├── requirements.txt
+├── main.py
+├── config.py
+├── tortoise_config.py
+├── handlers/
+│   ├── __init__.py
+│   ├── start.py
+│   ├── services.py
+│   ├── orders.py
+│   ├── payment.py
+│   ├── dispute.py
+│   └── admin.py
+├── keyboards/
+│   ├── __init__.py
+│   ├── main_menu.py
+│   ├── inline.py
+│   └── builders.py
+├── models/
+│   ├── __init__.py
+│   ├── user.py
+│   ├── order.py
+│   ├── payment.py
+│   └── dispute.py
+├── services/
+│   ├── __init__.py
+│   ├── database.py
+│   ├── yookassa.py
+│   ├── scheduler.py
+│   ├── minio_storage.py
+│   ├── redis_cache.py
+│   └── web_server.py
+├── utils/
+│   ├── __init__.py
+│   ├── helpers.py
+│   ├── validators.py
+│   └── logger.py
+├── migrations/
+│   └── (автогенерируемые aerich файлы)
+├── static/
+│   ├── docs/
+│   └── media/
+├── tests/
+│   ├── __init__.py
+│   ├── test_handlers.py
+│   └── test_services.py
+├── docker-compose.yml
+├── Dockerfile
+└── README.md

@@ -1,19 +1,18 @@
-# bot/config.py
-from pydantic import BaseSettings
+# config.py
+from dotenv import load_dotenv
+import os
 
-class Settings(BaseSettings):
-    TELEGRAM_TOKEN: str
-    DATABASE_URL: str = "postgresql+asyncpg://user:pass@host/dbname"
-    REDIS_HOST: str = "redis"
-    REDIS_PORT: int = 6379
-    YOOKASSA_SHOP_ID: str
-    YOOKASSA_SECRET_KEY: str
-    MINIO_ENDPOINT: str = "minio:9000"
-    MINIO_ACCESS_KEY: str
-    MINIO_SECRET_KEY: str
-    MINIO_USE_SSL: bool = False
+load_dotenv()
+
+class Config:
+    BOT_TOKEN = os.getenv("BOT_TOKEN")
+    ADMINS = [os.getenv("ADMIN_ID")]
+    YOOKASSA_SHOP_ID = os.getenv("YOOKASSA_SHOP_ID")
+    YOOKASSA_SECRET_KEY = os.getenv("YOOKASSA_SECRET_KEY")
     
-    class Config:
-        env_file = ".env"
-
-settings = Settings()
+    POSTGRES_DB = os.getenv("POSTGRES_DB")
+    POSTGRES_USER = os.getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+    
+    DATABASE_URL = f"asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DB}"

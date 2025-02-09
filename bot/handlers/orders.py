@@ -1,38 +1,35 @@
-# bot/handlers/orders.py
-from aiogram import types, Dispatcher
-from aiogram.dispatcher import FSMContext
-from bot.models import Order, User
-from bot.services import storage
-from bot.tasks import schedule_closure
+# handlers/orders.py
+from aiogram import Router, F
+from aiogram.types import CallbackQuery, Message
+from aiogram.fsm.context import FSMContext
+from models.order import Order
+from models.user import User
+from services.yookassa import create_payment
+from services.scheduler import schedule_order_close
 
-async def start_order_creation(callback: types.CallbackQuery, state: FSMContext):
-    await state.set_state("order_creation")
-    await callback.message.answer("Прикрепите фото/видео объекта:")
+orders_router = Router()
 
-async def process_media(message: types.Message, state: FSMContext):
-    media_urls = []
-    if message.photo:
-        file = await message.photo[-1].download(destination_file="temp.jpg")
-        url = await storage.upload_file(file.read(), "orders", f"{message.from_user.id}_{file.name}")
-        media_urls.append(url)
-    
-    async with state.proxy() as data:
-        data['media'] = media_urls
-    
-    await message.answer("Опишите объем работ:")
+@orders_router.callback_query(F.data.startswith("create_order_"))
+async def create_order(callback: CallbackQuery, state: FSMContext):
+    service_type = callback.data.split("_")[2]
+    await state.update_data(service_type=service_type)
+    await callback.message.answer("Пришлите фото/видео объекта:")
 
-async def finalize_order(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        async with db.session() as session:
-            user = await session.get(User, message.from_user.id)
-            order = Order(
-                user_id=user.id,
-                media_urls=json.dumps(data['media']),
-                description=message.text
-            )
-            session.add(order)
-            await session.commit()
-            schedule_closure.delay(order.id)
+@orders_router.message(F.photo | F.video)
+async def handle_media(message: Message, state: FSMContext):
+    data = await state.get_data()
+    media_id = message.photo[-1].file_id if message.photo else message.video.file_id
     
-    await state.finish()
-    await message.answer("Заказ создан!")
+    # Сохраняем медиа во временное хранилище
+    order = await Order.create(
+        user_id=message.from_user.id,
+        service_type=data['service_type'],
+        media_id=media_id
+    )
+    
+    # Создаем платеж
+    payment = await create_payment(1000, order.id)
+    await message.answer(f"Оплатите заказ: {payment.confirmation.confirmation_url}")
+
+    # Планируем автоматическое закрытие
+    await schedule_order_close(order.id)

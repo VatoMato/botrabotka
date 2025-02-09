@@ -1,33 +1,18 @@
-# bot/handlers/payments.py
-from aiogram import types
-from yookassa import Payment, Configuration
-from bot.config import settings
+#  handlers/payment.py
+from aiogram import Router
+from aiogram.types import Message
+from yookassa import Payment
+from models.order import Order
 
-Configuration.account_id = settings.YOOKASSA_SHOP_ID
-Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
+payment_router = Router()
 
-async def create_payment(order_amount: float, description: str) -> str:
-    payment = Payment.create({
-        "amount": {
-            "value": order_amount,
-            "currency": "RUB"
-        },
-        "confirmation": {
-            "type": "redirect",
-            "return_url": settings.PAYMENT_RETURN_URL
-        },
-        "capture": True,
-        "description": description
-    })
-    return payment.confirmation.confirmation_url
-
-async def process_payment_callback(callback: types.CallbackQuery):
-    # Логика верификации платежа
-    payment_id = callback.data.split(':')[1]
-    payment = Payment.find_one(payment_id)
+@payment_router.message(F.successful_payment)
+async def successful_payment(message: Message):
+    payment_info = message.successful_payment
+    payment = Payment.find_one(payment_info.provider_payment_charge_id)
     
-    if payment.status == 'succeeded':
-        await callback.message.answer("Оплата прошла успешно!")
-        # Обновление статуса заказа в БД
-    else:
-        await callback.message.answer("Ошибка оплаты")
+    order = await Order.get(id=payment.metadata.order_id)
+    order.status = "paid"
+    await order.save()
+    
+    await message.answer("Оплата прошла успешно! Ваш заказ активирован.")

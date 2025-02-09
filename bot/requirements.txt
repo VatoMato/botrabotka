@@ -1,0 +1,10 @@
+# requirements.txt
+aiogram==3.0.0b7
+asyncpg==0.27.0
+yookassa
+apscheduler==3.10.1
+python-dotenv==0.19.0
+tortoise-orm==0.19.3
+pytest==7.4.0
+pytest-asyncio==0.21.1
+httpx==0.24.1
