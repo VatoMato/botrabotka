@@ -1,5 +1,5 @@
 # requirements.txt
-aiogram==3.0.0b7
+aiogram
 asyncpg==0.27.0
 yookassa
 apscheduler==3.10.1

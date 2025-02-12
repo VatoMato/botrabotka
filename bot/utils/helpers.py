@@ -1,5 +1,6 @@
 # utils/helpers.py
 from datetime import datetime, timedelta
+from models.order import Order
 
 def calculate_deadline(hours: int = 3) -> datetime:
     return datetime.now() + timedelta(hours=hours)

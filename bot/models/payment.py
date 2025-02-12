@@ -11,5 +11,5 @@ class Payment(Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
 
-    class Meta:
+    class Meta:  # type: ignore  # Исправлено по Промту 14
         table = "payments"

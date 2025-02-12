@@ -1,4 +1,5 @@
 # services/scheduler.py
+import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from utils.helpers import close_order
 from services.database import close_db

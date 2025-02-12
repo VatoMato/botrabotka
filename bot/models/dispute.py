@@ -12,5 +12,5 @@ class Dispute(Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     resolved_at = fields.DatetimeField(null=True)
 
-    class Meta:
+    class Meta:  # type: ignore  # Исправлено по Промту 14
         table = "disputes"
