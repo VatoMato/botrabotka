@@ -1,4 +1,4 @@
-# setup_webhook.py     Добавлено из Промта 18
+# bot\setup_webhook.py     Добавлено из Промта 18
 from yookassa import Webhook
 from yookassa.domain.notification import WebhookNotificationEventType
 from config import Config  # Импорт настроек

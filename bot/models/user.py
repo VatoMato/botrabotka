@@ -1,4 +1,4 @@
-# bot/models/user.py    Иззмененно по Промту 14
+# bot/models/user.py    Иправлено по Промту 14
 from tortoise.models import Model
 from tortoise import fields
 

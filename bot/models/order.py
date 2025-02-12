@@ -1,4 +1,4 @@
-# bot/models/order.py   Иправленно по Промту 14
+# bot\models\order.py   Исправлено по Промту 14
 from tortoise.models import Model
 from tortoise import fields
 
@@ -10,7 +10,7 @@ class Order(Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     closed_at = fields.DatetimeField(null=True)
     amount = fields.DecimalField(max_digits=10, decimal_places=2)
-    media_id = fields.CharField(max_length=100)   # Иправленно по Промту 16
+    media_id = fields.CharField(max_length=100)   # Исправлено по Промту 16
 
     class Meta:  # type: ignore  # Исправлено по Промту 14
         table = "orders"

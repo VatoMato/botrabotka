@@ -1,5 +1,6 @@
 # bot\services\redis_cache.py
 from redis import asyncio as aioredis
+from models.user import User
 
 redis = aioredis.from_url("redis://localhost")
 

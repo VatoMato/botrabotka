@@ -1,6 +1,6 @@
 # bot\services\web_server.py
 from aiohttp import web
-from bot.handlers.payments import payment_webhook  # Исправленный импорт по Промту 18
+from bot.handlers.payments import payment_webhook  # Исправленый импорт по Промту 18
 
 app = web.Application()
 app.router.add_post('/yookassa-webhook', payment_webhook)

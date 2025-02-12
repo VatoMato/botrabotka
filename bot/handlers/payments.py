@@ -1,4 +1,4 @@
-# bot\handlers\payments.py     Измененно по Промту 19
+# bot\handlers\payments.py     Изменено по Промту 18
 from aiogram import Router, F
 from aiogram.types import Message, ContentType
 from aiohttp import web

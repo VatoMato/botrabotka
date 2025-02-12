@@ -1,6 +1,8 @@
-# services/database.py
+# bot\services\database.py
 from tortoise import Tortoise
 from config import Config
+from models.order import Order
+from models.user import User
 
 async def init_db():
     await Tortoise.init(

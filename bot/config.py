@@ -1,4 +1,4 @@
-# bot\config.py    Исправленно по Промту 13,14
+# bot\config.py    Иправлено по Промту 13,14
 from dotenv import load_dotenv
 import os
 
@@ -17,6 +17,8 @@ class Config:
     YOOKASSA_SHOP_ID = get_env_var("YOOKASSA_SHOP_ID")
     YOOKASSA_SECRET_KEY = get_env_var("YOOKASSA_SECRET_KEY")
     WEBHOOK_URL = "https://your-domain.com"  # Публичный адрес вашего сервера
+    PORT = 8080                              # Порт для web_server.py Добавлен по Промту 18
+
 
     POSTGRES_DB = get_env_var("POSTGRES_DB")
     POSTGRES_USER = get_env_var("POSTGRES_USER")

@@ -1,4 +1,4 @@
-# bot\handlers\admin.py        Исправленн по Промту 14
+# bot\handlers\admin.py        Исправлено по Промту 14
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command

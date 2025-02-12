@@ -1,4 +1,4 @@
-# handlers/dispute.py
+# bot\handlers\dispute.py
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message
 
